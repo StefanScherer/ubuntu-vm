@@ -48,6 +48,9 @@
     "vmx_data": {
       "memsize": "512",
       "numvcpus": "1"
+    },
+    "vmx_data_post": {
+      "ethernet0.virtualDev": "vmxnet3"
     }
   },
   {
@@ -104,8 +107,12 @@
   }],
   "post-processors": [{
     "type": "vagrant",
-    "provider": "vcloud",
     "keep_input_artifact": false,
+    "output": "box/{{.Provider}}/ubuntu1204-{{user `cm`}}{{user `cm_version`}}.box"
+  },
+  {
+    "type": "vagrant-vmware-ovf",
+    "provider": "vcloud",
     "output": "box/{{.Provider}}/ubuntu1204-{{user `cm`}}{{user `cm_version`}}.box"
   }]
 }

@@ -103,9 +103,8 @@
     ]
   }],
   "post-processors": [{
-    "type": "vagrant",
+    "type": "vagrant-vmware-ovf",
     "provider": "vcloud",
-    "keep_input_artifact": false,
     "output": "box/{{.Provider}}/ubuntu1204-{{user `cm`}}{{user `cm_version`}}.box"
   }]
 }
