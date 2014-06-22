@@ -107,6 +107,6 @@
   "post-processors": [{
     "type": "vagrant",
     "keep_input_artifact": false,
-    "output": "box/{{.Provider}}/ubuntu1204-100gb-{{user `cm`}}{{user `cm_version`}}.box"
+    "output": "ubuntu1204-100gb_{{.Provider}}.box"
   }]
 }
