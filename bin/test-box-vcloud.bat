@@ -26,7 +26,7 @@ mkdir %tmp_path%
 @set vcloud_catalog=YOUR-VCLOUD-CATALOG
 @set vcloud_vdc=YOUR-VCLOUD-VDC
 
-if "%VAGRANT_HOME%x"=="x" then set VAGRANT_HOME=%USERPROFILE%\.vagrant.d
+if "%VAGRANT_HOME%x"=="x" set VAGRANT_HOME=%USERPROFILE%\.vagrant.d
 
 if exist c:\vagrant\resources\test-box-vcloud-credentials.bat call c:\vagrant\resources\test-box-vcloud-credentials.bat
 
