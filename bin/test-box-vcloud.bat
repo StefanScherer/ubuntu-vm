@@ -11,13 +11,6 @@ set tmp_path=boxtest
 
 if exist %tmp_path% rmdir /s /q %tmp_path%
 
-set VAGRANT_HOME=%cd%\vagrant
-if exist %VAGRANT_HOME% rmdir /s /q %VAGRANT_HOME%
-mkdir %VAGRANT_HOME%
-if exist c:\vagrant\resources\Vagrantfile-global (
-  copy c:\vagrant\resources\Vagrantfile-global %VAGRANT_HOME%\Vagrantfile
-)
-
 rem tested only with box-provider=vcloud
 vagrant plugin install vagrant-%box_provider%
 vagrant plugin install vagrant-serverspec
@@ -56,8 +49,6 @@ vagrant destroy -f
 popd
 
 vagrant box remove %box_name% --provider %box_provider%
-
-rmdir /s /q %VAGRANT_HOME%
 
 goto :done
 
