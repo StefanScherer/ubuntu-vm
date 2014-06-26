@@ -59,6 +59,7 @@ vagrant box remove %box_name% --provider %box_provider%
 
 rmdir /s /q %VAGRANT_HOME%
 
+
 goto :done
 
 :error_vcloud_upload
@@ -66,6 +67,11 @@ echo Error Uploading box to vCloud with ovftool!
 goto :done
 
 :create_vagrantfile
+
+rem to test if rsync works
+if not exist $tmp_path\testdir\testfile.txt
+mkdir testdir
+echo Works $tmp_path\testdir\testfile.txt
 
 rem cat << EOF > $tmp_path/Vagrantfile
 echo Vagrant.configure('2') do ^|config^| >Vagrantfile
