@@ -26,6 +26,8 @@ mkdir %tmp_path%
 @set vcloud_catalog=YOUR-VCLOUD-CATALOG
 @set vcloud_vdc=YOUR-VCLOUD-VDC
 
+if "%VAGRANT_HOME%x"=="x" then set VAGRANT_HOME=%USERPROFILE%\.vagrant.d
+
 if exist c:\vagrant\resources\test-box-vcloud-credentials.bat call c:\vagrant\resources\test-box-vcloud-credentials.bat
 
 echo Uploading %box_name%.ovf to vCloud %vcloud_hostname% / %vcloud_org% / %vcloud_catalog% / %box_name%
