@@ -57,6 +57,8 @@ popd
 
 vagrant box remove %box_name% --provider %box_provider%
 
+rmdir /s /q %VAGRANT_HOME%
+
 goto :done
 
 :error_vcloud_upload
