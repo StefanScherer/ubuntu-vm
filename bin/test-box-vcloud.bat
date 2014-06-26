@@ -5,7 +5,7 @@ set box_path=%1
 set box_name=%2
 set box_provider=%3
 set vagrant_provider=%4
-set test_src_path=%5
+set test_src_path=../test/*_spec.rb
 
 set tmp_path=boxtest
 
@@ -61,16 +61,16 @@ goto :done
 :create_vagrantfile
 
 rem to test if rsync works
-if not exist $tmp_path\testdir\testfile.txt
-mkdir testdir
-echo Works $tmp_path\testdir\testfile.txt
+if not exist testdir\testfile.txt (
+  mkdir testdir
+  echo Works >testdir\testfile.txt
+)
 
-rem cat << EOF > $tmp_path/Vagrantfile
 echo Vagrant.configure('2') do ^|config^| >Vagrantfile
 echo   config.vm.box = '%box_name%' >>Vagrantfile
-echo   #config.vm.provision :serverspec do ^|spec^| >>Vagrantfile
-echo   #  spec.pattern = '%test_src_path%' >>Vagrantfile
-echo   #end >>Vagrantfile
+echo   config.vm.provision :serverspec do ^|spec^| >>Vagrantfile
+echo     spec.pattern = '../test/*_spec.rb' >>Vagrantfile
+echo   end >>Vagrantfile
 echo end >>Vagrantfile
 
 exit /b
