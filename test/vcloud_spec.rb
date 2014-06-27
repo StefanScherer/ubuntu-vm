@@ -6,4 +6,6 @@ describe 'box' do
     its(:content) { should match /Works/ }
   end
 
+  # TODO: check for 10GBit vmxnet3
+  # dmesg | grep "eth0: NIC Link is Up 10000 Mbps"
 end
