@@ -1,15 +1,25 @@
 rem 
 rem bin\test-box-vcloud.bat ubuntu1204_vcloud.box ubuntu1204 vcloud vcloud
 
+set quick=0
+
+if "%1x"=="--quickx" (
+  shift
+  set quick=1
+)
 set box_path=%1
 set box_name=%2
 set box_provider=vcloud
 set vagrant_provider=vcloud
 set test_src_path=../test/*_spec.rb
 
-set tmp_path=boxtest
+set result=0
 
+set tmp_path=boxtest
 if exist %tmp_path% rmdir /s /q %tmp_path%
+
+if %quick%==1 goto :do_test
+
 
 rem tested only with box-provider=vcloud
 vagrant plugin install vagrant-%box_provider%
@@ -17,8 +27,8 @@ vagrant plugin install vagrant-serverspec
 
 vagrant box remove %box_name% --provider=%box_provider%
 vagrant box add %box_name% %box_path%
+if ERRORLEVEL 1 set result=%ERRORLEVEL%
 if ERRORLEVEL 1 goto :done
-mkdir %tmp_path%
 
 @set vcloud_hostname=YOUR-VCLOUD-HOSTNAME
 @set vcloud_username=YOUR-VCLOUD-USERNAME
@@ -41,12 +51,16 @@ if ERRORLEVEL 1 goto :error_vcloud_upload
 
 :test_vagrant_box
 @echo.
-@echo Sleeping 240 seconds for vCloud to finish vAppTemplate import
+@echo Sleeping 120 seconds for vCloud to finish vAppTemplate import
 @echo Tests with 120 seconds still cause a 500 internal error while powering on
 @echo a vApp in vCloud. So be patient until we have a better upload
 @echo solution that waits until the import is really finished.
-@ping 1.1.1.1 -n 1 -w 240000 > nul
+@ping 1.1.1.1 -n 1 -w 120000 > nul
 
+:do_test
+set result=0
+
+mkdir %tmp_path%
 pushd %tmp_path%
 call :create_vagrantfile
 set VAGRANT_LOG=debug
@@ -55,18 +69,20 @@ if exist %USERPROFILE%\.ssh\known_hosts type %USERPROFILE%\.ssh\known_hosts
 del /F %USERPROFILE%\.ssh\known_hosts
 if exist %USERPROFILE%\.ssh\known_hosts echo known_hosts still here!!
 vagrant up --provider=%vagrant_provider%
-if ERRORLEVEL 1 goto :done
+if ERRORLEVEL 1 set result=%ERRORLEVEL%
 
 set VAGRANT_LOG=warn
 @echo Sleep 10 seconds
 @ping 1.1.1.1 -n 1 -w 10000 > nul
 
 vagrant destroy -f
-if ERRORLEVEL 1 goto :done
+if ERRORLEVEL 1 set result=%ERRORLEVEL%
 popd
 
+if %quick%==1 goto :done
+
 vagrant box remove %box_name% --provider=%box_provider%
-if ERRORLEVEL 1 goto :done
+if ERRORLEVEL 1 set result=%ERRORLEVEL%
 
 goto :done
 
@@ -83,15 +99,19 @@ if not exist testdir\testfile.txt (
 )
 
 echo Vagrant.configure('2') do ^|config^| >Vagrantfile
-echo   config.vm.box = '%box_name%' >>Vagrantfile
-echo     config.vm.provider :vcloud do ^|vcloud^| >>Vagrantfile
+echo   config.vm.define :"tst" do ^|tst^| >>Vagrantfile
+echo     tst.vm.box = "%box_name%" >>Vagrantfile
+echo     tst.vm.hostname = "tst"
+echo     tst.vm.provider :vcloud do ^|vcloud^| >>Vagrantfile
 echo       vcloud.vapp_prefix = "%box_name%" >>Vagrantfile
 echo     end >>Vagrantfile
-echo   config.vm.provision :serverspec do ^|spec^| >>Vagrantfile
-echo     spec.pattern = '../test/*_spec.rb' >>Vagrantfile
+echo     tst.vm.provision :serverspec do ^|spec^| >>Vagrantfile
+echo       spec.pattern = '../test/*_spec.rb' >>Vagrantfile
+echo     end >>Vagrantfile
 echo   end >>Vagrantfile
 echo end >>Vagrantfile
 
 exit /b
 
 :done
+exit %result%
