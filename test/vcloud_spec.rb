@@ -16,6 +16,12 @@ describe 'box' do
     it { should be_listening  }
   end
 
+  # this is only added to test Jenkins serverspec stdout catcher
+  describe service('my_extra_service') do
+    it { should be_enabled }
+    it { should be_running }
+  end
+
   # check for 10GBit vmxnet3
   describe command('dmesg') do
     it { should return_stdout(/vmxnet3.*eth0: NIC Link is Up 10000 Mbps/)   }
