@@ -4,6 +4,8 @@
     "cm_version": "",
     "cm_set_path": "",
     "cleanup_pause": "",
+    "headless": "",
+    "auto_upgrade": "",
     "iso_url": "http://releases.ubuntu.com/10.04.4/ubuntu-10.04.4-server-amd64.iso",
     "iso_checksum": "796e80702d65f2ee96e88874a1ab437e24df9cd6"
   },
@@ -18,10 +20,8 @@
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
     "ssh_wait_timeout": "10000s",
+    "headless": "{{ user `headless` }}",
     "tools_upload_flavor": "linux",
-    "floppy_files": [
-      "floppy/vagrant.pub"
-    ],
     "boot_command": [
       "<esc><esc><enter><wait>",
       "/install/vmlinuz auto",
@@ -63,9 +63,7 @@
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
     "ssh_wait_timeout": "10000s",
-    "floppy_files": [
-      "floppy/vagrant.pub"
-    ],
+    "headless": "{{ user `headless` }}",
     "boot_command": [
       "<esc><esc><enter><wait>",
       "/install/vmlinuz auto",
@@ -100,7 +98,8 @@
       "CM={{user `cm`}}",
       "CM_VERSION={{user `cm_version`}}",
       "CM_SET_PATH={{user `cm_set_path`}}",
-      "CLEANUP_PAUSE={{user `cleanup_pause`}}"
+      "CLEANUP_PAUSE={{user `cleanup_pause`}}",
+      "AUTO_UPGRADE={{user `auto_upgrade`}}"
     ],
     "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
     "scripts": [

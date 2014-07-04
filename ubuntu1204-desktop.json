@@ -4,6 +4,8 @@
     "cm_version": "",
     "cm_set_path": "",
     "cleanup_pause": "",
+    "headless": "",
+    "auto_upgrade": "",
     "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.4-alternate-amd64.iso",
     "iso_checksum": "73a758a2353f21e3016be8135411342a605bccac"
   },
@@ -19,10 +21,8 @@
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
     "ssh_wait_timeout": "10000s",
+    "headless": "{{ user `headless` }}",
     "tools_upload_flavor": "linux",
-    "floppy_files": [
-      "floppy/vagrant.pub"
-    ],
     "boot_command": [
       "<esc><esc><enter><wait>",
       "/install/vmlinuz auto",
@@ -65,9 +65,7 @@
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
     "ssh_wait_timeout": "10000s",
-    "floppy_files": [
-      "floppy/vagrant.pub"
-    ],
+    "headless": "{{ user `headless` }}",
     "boot_command": [
       "<esc><esc><enter><wait>",
       "/install/vmlinuz noapic ",
@@ -92,7 +90,8 @@
       "CM={{user `cm`}}",
       "CM_VERSION={{user `cm_version`}}",
       "CM_SET_PATH={{user `cm_set_path`}}",
-      "CLEANUP_PAUSE={{user `cleanup_pause`}}"
+      "CLEANUP_PAUSE={{user `cleanup_pause`}}",
+      "AUTO_UPGRADE={{user `auto_upgrade`}}"
     ],
     "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
     "scripts": [

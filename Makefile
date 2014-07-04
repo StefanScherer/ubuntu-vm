@@ -24,11 +24,13 @@ ifndef CM_VERSION
 		CM_VERSION = latest
 	endif
 endif
+HEADLESS ?=
+AUTO_UPGRADE ?=
 # Packer does not allow empty variables, so only pass variables that are defined
 ifdef CM_VERSION
-	PACKER_VARS := -var 'cm=$(CM)' -var 'cm_version=$(CM_VERSION)'
+	PACKER_VARS := -var 'cm=$(CM)' -var 'cm_version=$(CM_VERSION)' -var 'headless=$(HEADLESS)' -var 'auto_upgrade=$(AUTO_UPGRADE)'
 else
-	PACKER_VARS := -var 'cm=$(CM)'
+	PACKER_VARS := -var 'cm=$(CM)' -var 'headless=$(HEADLESS)' -var 'auto_upgrade=$(AUTO_UPGRADE)'
 endif
 ifeq ($(CM),nocm)
 	BOX_SUFFIX := -$(CM).box
@@ -49,7 +51,7 @@ VIRTUALBOX_BUILDER := virtualbox-iso
 CURRENT_DIR = $(shell pwd)
 SOURCES := $(wildcard script/*.sh) $(floppy/*.*) $(http/*.cfg)
 
-.PHONY: all list clean
+.PHONY: all list clean validate
 
 all: $(BOX_FILES)
 
@@ -63,9 +65,13 @@ vmware/$(1): $(VMWARE_BOX_DIR)/$(1)$(BOX_SUFFIX)
 
 test-vmware/$(1): test-$(VMWARE_BOX_DIR)/$(1)$(BOX_SUFFIX)
 
+ssh-vmware/$(1): ssh-$(VMWARE_BOX_DIR)/$(1)$(BOX_SUFFIX)
+
 virtualbox/$(1): $(VIRTUALBOX_BOX_DIR)/$(1)$(BOX_SUFFIX)
 
 test-virtualbox/$(1): test-$(VIRTUALBOX_BOX_DIR)/$(1)$(BOX_SUFFIX)
+
+ssh-virtualbox/$(1): ssh-$(VIRTUALBOX_BOX_DIR)/$(1)$(BOX_SUFFIX)
 
 $(1): vmware/$(1) virtualbox/$(1)
 
@@ -222,6 +228,13 @@ list:
 	@for shortcut_target in $(SHORTCUT_TARGETS) ; do \
 		echo $$shortcut_target ; \
 	done
+
+validate:
+	@for template_filename in $(TEMPLATE_FILENAMES) ; do \
+		echo Checking $$template_filename ; \
+		packer validate $$template_filename ; \
+	done
+
 
 clean: clean-builders clean-output clean-packer-cache
 		
