@@ -48,6 +48,9 @@
     "vmx_data": {
       "memsize": "1024",
       "numvcpus": "1"
+    },
+    "vmx_data_post": {
+        "ethernet0.virtualDev": "vmxnet3"
     }
   },
   {

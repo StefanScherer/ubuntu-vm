@@ -48,6 +48,9 @@
     "vmx_data": {
       "memsize": "512",
       "numvcpus": "1"
+    },
+    "vmx_data_post": {
+        "ethernet0.virtualDev": "vmxnet3"
     }
   },
   {
@@ -99,7 +102,7 @@
       "script/vmtool.sh",
       "script/cmtool.sh",
       "script/minimize.sh",
-      "script/cleanup-vcloud.sh"
+      "script/cleanup.sh"
     ]
   }],
   "post-processors": [{
