@@ -19,6 +19,13 @@ if [ -d "/var/lib/dhcp" ]; then
     rm /var/lib/dhcp/*
 fi 
 
+if [ ! -d "/etc/dhcp3" ]; then
+  if [ -d "/etc/dhcp" ]; then
+    echo "Patching /etc/dhcp3 for vCloud"
+    ln -s /etc/dhcp /etc/dhcp3
+  fi
+fi
+
 echo "Writing a fixed eth0 entry to avoid delay on first boot in vCloud"
 cat <<CFG | tee /etc/network/interfaces
 auto lo
