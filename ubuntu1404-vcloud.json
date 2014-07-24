@@ -102,7 +102,7 @@
       "script/vmtool.sh",
       "script/cmtool.sh",
       "script/minimize.sh",
-      "script/cleanup.sh"
+      "script/cleanup-vcloud.sh"
     ]
   }],
   "post-processors": [{
