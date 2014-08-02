@@ -10,19 +10,19 @@ using Packer.
 
 64-bit boxes:
 
-* [box-cutter/ubuntu1404](https://vagrantcloud.com/box-cutter/ubuntu1404) - Ubuntu Server 14.04 (64-bit), VMware 315MB/VirtualBox 264MB
-* [box-cutter/ubuntu1404-desktop](https://vagrantcloud.com/box-cutter/ubuntu1404-desktop) - Ubuntu Desktop 14.04 (64-bit), VMware 1.1GB/VirtualBox 1GB
-* [box-cutter/ubuntu1404-docker](https://vagrantcloud.com/box-cutter/ubuntu1404-docker) - Ubuntu Server 14.04 (64-bit) with Docker preinstalled, VMware 437MB/VirtualBox 390MB
-* [box-cutter/ubuntu1204](https://vagrantcloud.com/box-cutter/ubuntu1204) - Ubuntu Server 12.04 (64-bit), VMware 276MB, VirtualBox 231MB
-* [box-cutter/ubuntu1204-desktop](https://vagrantcloud.com/box-cutter/ubuntu1204-desktop) - Ubuntu Desktop 12.04 (64-bit), VMware 883MB/VirtualBox 819MB
-* [box-cutter/ubuntu1204-docker](https://vagrantcloud.com/box-cutter/ubuntu1204-docker) - Ubuntu Server 12.04 (64-bit) with Docker preinstalled, VMware 396MB/VirtualBox 352MB
-* [box-cutter/ubuntu1004](https://vagrantcloud.com/box-cutter/ubuntu1004)  - Ubuntu Server 10.04 (64-bit), VMware 220MB/VirtualBox 191MB
+* [box-cutter/ubuntu1404](https://vagrantcloud.com/box-cutter/ubuntu1404) - Ubuntu Server 14.04.1 (64-bit), VMware 316MB/VirtualBox 269MB
+* [box-cutter/ubuntu1404-desktop](https://vagrantcloud.com/box-cutter/ubuntu1404-desktop) - Ubuntu Desktop 14.04.1 (64-bit), VMware 1.1GB/VirtualBox 1GB
+* [box-cutter/ubuntu1404-docker](https://vagrantcloud.com/box-cutter/ubuntu1404-docker) - Ubuntu Server 14.04.1 (64-bit) with Docker preinstalled, VMware 435MB/VirtualBox 389MB
+* [box-cutter/ubuntu1204](https://vagrantcloud.com/box-cutter/ubuntu1204) - Ubuntu Server 12.04.4 (64-bit), VMware 278MB, VirtualBox 233MB
+* [box-cutter/ubuntu1204-desktop](https://vagrantcloud.com/box-cutter/ubuntu1204-desktop) - Ubuntu Desktop 12.04.4 (64-bit), VMware 884MB/VirtualBox 813MB
+* [box-cutter/ubuntu1204-docker](https://vagrantcloud.com/box-cutter/ubuntu1204-docker) - Ubuntu Server 12.04.4 (64-bit) with Docker preinstalled, VMware 396MB/VirtualBox 350MB
+* [box-cutter/ubuntu1004](https://vagrantcloud.com/box-cutter/ubuntu1004)  - Ubuntu Server 10.04.4 (64-bit), VMware 221MB/VirtualBox 179MB
 
 32-bit boxes:
 
-* [box-cutter/ubuntu1404-i386](https://vagrantcloud.com/box-cutter/ubuntu1404-i386) - Ubuntu Server 14.04 (32-bit), VMware 312MB/VirtualBox 264MB
-* [box-cutter/ubuntu1204-i386](https://vagrantcloud.com/box-cutter/ubuntu1204-i386) - Ubuntu Server 12.04 (32-bit), VMware 274MB/VirtualBox 223MB
-* [box-cutter/ubuntu1004-i386](https://vagrantcloud.com/box-cutter/ubuntu1004-i386) - Ubuntu Server 10.04 (32-bit), VMware 206MB/VirtualBox 182MB
+* [box-cutter/ubuntu1404-i386](https://vagrantcloud.com/box-cutter/ubuntu1404-i386) - Ubuntu Server 14.04.1 (32-bit), VMware 308MB/VirtualBox 278MB
+* [box-cutter/ubuntu1204-i386](https://vagrantcloud.com/box-cutter/ubuntu1204-i386) - Ubuntu Server 12.04.4 (32-bit), VMware 273MB/VirtualBox 239MB
+* [box-cutter/ubuntu1004-i386](https://vagrantcloud.com/box-cutter/ubuntu1004-i386) - Ubuntu Server 10.04.4 (32-bit), VMware 207MB/VirtualBox 181MB
 
 ## Building the Vagrant boxes
 
@@ -35,7 +35,19 @@ A GNU Make `Makefile` drives the process via the following targets:
     make test   # Run tests against all the boxes
     make list   # Print out individual targets
     make clean  # Clean up build detritus
-    
+
+### Proxy Settings
+
+The templates respect the following network proxy environment variables
+and forward them on to the virtual machine environment during the box creation
+process, should you be using a proxy:
+
+* http_proxy
+* https_proxy
+* ftp_proxy
+* rsync_proxy
+* no_proxy
+
 ### Tests
 
 The tests are written in [Serverspec](http://serverspec.org) and require the
@@ -58,8 +70,16 @@ Upon logout `make ssh-*` will automatically de-register the box as well.
 ### Makefile.local override
 
 You can create a `Makefile.local` file alongside the `Makefile` to override
-some of the default settings.  It is most commonly used to override the
-default configuration management tool, for example with Chef:
+some of the default settings.  The variables can that can be currently
+used are:
+
+* CM
+* CM_VERSION
+* <iso_path>
+* UPDATE
+
+`Makefile.local` is most commonly used to override the default configuration
+management tool, for example with Chef:
 
     # Makefile.local
     CM := chef
@@ -71,6 +91,7 @@ Possible values for the CM variable are:
 
 * `nocm` - No configuration management tool
 * `chef` - Install Chef
+* `chefdk` - Install Chef Development Kit
 * `puppet` - Install Puppet
 * `salt`  - Install Salt
 
@@ -78,6 +99,10 @@ You can also specify a variable `CM_VERSION`, if supported by the
 configuration management tool, to override the default of `latest`.
 The value of `CM_VERSION` should have the form `x.y` or `x.y.z`,
 such as `CM_VERSION := 11.12.4`
+
+The variable `UPDATE` can be used to perform OS patch management.  The
+default is to not apply OS updates by default.  When `UPDATE := true`,
+the latest OS updates will be applied.
 
 Another use for `Makefile.local` is to override the default locations
 for the Ubuntu install ISO files.
