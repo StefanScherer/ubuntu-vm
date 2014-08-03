@@ -52,6 +52,7 @@
     "vm_name": "ubuntu1204-100gb",
     "type": "virtualbox-iso",
     "headless": true,
+    "http_port_min": 8200,
     "http_directory": "http",
     "iso_url": "{{ user `iso_url` }}",
     "iso_checksum": "{{ user `iso_checksum` }}",

@@ -56,6 +56,7 @@
     "vm_name": "ubuntu1204",
     "type": "virtualbox-iso",
     "http_directory": "http",
+    "http_port_min": 8200,
     "iso_url": "{{ user `iso_url` }}",
     "iso_checksum": "{{ user `iso_checksum` }}",
     "iso_checksum_type": "sha1",
