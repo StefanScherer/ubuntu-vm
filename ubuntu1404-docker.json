@@ -116,6 +116,6 @@
   "post-processors": [{
     "type": "vagrant",
     "keep_input_artifact": false,
-    "output": "box/{{.Provider}}/ubuntu1404-docker-{{user `cm`}}{{user `cm_version`}}.box"
+    "output": "ubuntu1404-docker_{{.Provider}}.box"
   }]
 }
