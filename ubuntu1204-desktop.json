@@ -119,6 +119,6 @@
     "type": "vagrant",
     "keep_input_artifact": false,
     "vagrantfile_template": "tpl/vagrantfile-ubuntu1204-desktop.tpl",
-    "output": "box/{{.Provider}}/ubuntu1204-desktop-{{user `cm`}}{{user `cm_version`}}.box"
+    "output": "ubuntu1204-desktop_{{.Provider}}.box"
   }]
 }
