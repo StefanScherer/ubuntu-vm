@@ -1,6 +1,14 @@
 require_relative 'spec_helper'
 
 describe 'box' do
+  it 'should have a root user' do
+    expect(user 'root').to exist
+  end
+  
+  it 'should have a vagrant user' do
+    expect(user 'vagrant').to exist
+  end
+
   # this tests if rsync works from bin/test-box-vcloud.bat
   describe file('/vagrant/testdir/testfile.txt') do
     it { should be_file }
@@ -21,4 +29,8 @@ describe 'box' do
     it { should return_stdout(/vmxnet3.*eth0: NIC Link is Up 10000 Mbps/)   }
   end
 
+  # VMware Tools
+  describe process("vmtoolsd") do
+    it { should be_running }
+  end
 end
