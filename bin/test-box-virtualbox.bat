@@ -69,6 +69,9 @@ echo     tst.vm.hostname = "tst"
 echo     tst.vm.provision :serverspec do ^|spec^| >>Vagrantfile
 echo       spec.pattern = '../test/*_%box_provider%.rb' >>Vagrantfile
 echo     end >>Vagrantfile
+echo     tst.vm.provider :virtualbox do ^|v, override^| >>Vagrantfile
+echo       v.customize ["modifyvm", :id, "--accelerate3d", "off"] >>Vagrantfile
+echo     end >>Vagrantfile
 echo   end >>Vagrantfile
 echo end >>Vagrantfile
 
