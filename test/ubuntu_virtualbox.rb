@@ -33,4 +33,10 @@ describe 'box' do
     it { should be_enabled }
     it { should be_running }
   end
+
+  # check timezone
+  describe file('/etc/timezone') do
+    it { should be_file }
+    its(:content) { should match /Europe.Berlin/ }
+  end
 end
