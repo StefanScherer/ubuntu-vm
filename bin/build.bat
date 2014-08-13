@@ -32,6 +32,9 @@
 @echo spec = %spec%
 @echo.
 
+echo Cleanup packer temp files - found once a 30 GByte big packer temp file
+del /F C:\Users\vagrant\AppData\Local\Temp\packer*
+
 if exist output-%builder% (
   rmdir /S /Q output-%builder%
 )
