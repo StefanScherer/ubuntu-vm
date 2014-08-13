@@ -43,12 +43,21 @@ echo USERPROFILE = %USERPROFILE%
 if exist %USERPROFILE%\.ssh\known_hosts type %USERPROFILE%\.ssh\known_hosts
 del /F %USERPROFILE%\.ssh\known_hosts
 if exist %USERPROFILE%\.ssh\known_hosts echo known_hosts still here!!
+@echo Starting VM
 vagrant up --provider=%vagrant_provider%
 if ERRORLEVEL 1 set result=%ERRORLEVEL%
 
 @echo Sleep 10 seconds
 @ping 1.1.1.1 -n 1 -w 10000 > nul
 
+@echo Halting VM
+vagrant halt
+if ERRORLEVEL 1 set result=%ERRORLEVEL%
+
+@echo Sleep 10 seconds
+@ping 1.1.1.1 -n 1 -w 10000 > nul
+
+@echo Destroying VM
 vagrant destroy -f
 if ERRORLEVEL 1 set result=%ERRORLEVEL%
 popd
