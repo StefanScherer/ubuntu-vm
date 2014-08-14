@@ -9,6 +9,7 @@
   },
   "builders": [{
     "vm_name": "ubuntu1204-100gb",
+    "headless": true,
     "type": "vmware-iso",
     "guest_os_type": "ubuntu-64",
     "http_directory": "http",
