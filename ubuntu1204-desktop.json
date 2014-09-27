@@ -16,7 +16,6 @@
   },
   "builders": [{
     "vm_name": "ubuntu1204-desktop",
-    "headless": true,
     "type": "vmware-iso",
     "guest_os_type": "ubuntu-64",
     "http_directory": "http",
@@ -60,7 +59,6 @@
   {
     "vm_name": "ubuntu1204-desktop",
     "type": "virtualbox-iso",
-    "headless": true,
     "http_directory": "http",
     "http_port_min": 8200,
     "iso_url": "{{ user `iso_url` }}",
