@@ -1,8 +1,8 @@
 {
   "variables": {
+    "version": "0.1.0",
     "cm": "nocm",
     "cm_version": "",
-    "cm_set_path": "",
     "cleanup_pause": "",
     "headless": "",
     "update": "false",
@@ -11,8 +11,8 @@
     "ftp_proxy": "{{env `ftp_proxy`}}",
     "rsync_proxy": "{{env `rsync_proxy`}}",
     "no_proxy": "{{env `no_proxy`}}",
-    "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.4-server-amd64.iso",
-    "iso_checksum": "b802bb065df98c0530d782eb94778c2da19e10d6"
+    "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso",
+    "iso_checksum": "7540ace2d6cdee264432f5ed987236d32edef798" 
   },
   "builders": [{
     "vm_name": "ubuntu1204",
@@ -73,6 +73,7 @@
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
     "ssh_wait_timeout": "10000s",
+    "headless": "{{ user `headless` }}",
     "boot_command": [
       "<esc><esc><enter><wait>",
       "/install/vmlinuz noapic ",
@@ -96,7 +97,6 @@
     "environment_vars": [
       "CM={{user `cm`}}",
       "CM_VERSION={{user `cm_version`}}",
-      "CM_SET_PATH={{user `cm_set_path`}}",
       "CLEANUP_PAUSE={{user `cleanup_pause`}}",
       "UPDATE={{user `update`}}",
       "http_proxy={{user `http_proxy`}}",

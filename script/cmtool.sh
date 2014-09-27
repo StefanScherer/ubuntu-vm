@@ -29,17 +29,10 @@ install_chef()
     echo "==> Installing Chef"
     if [[ ${CM_VERSION} == 'latest' ]]; then
         echo "Installing latest Chef version"
-        curl -L https://www.getchef.com/chef/install.sh | bash
+        curl -Lk https://www.getchef.com/chef/install.sh | bash
     else
         echo "Installing Chef version ${CM_VERSION}"
-        curl -L https://www.getchef.com/chef/install.sh | bash -s -- -v $CM_VERSION
-    fi
-
-    if [[ ${CM_SET_PATH:-} == 'true' ]]; then
-        echo "Automatically setting vagrant PATH to Chef Client"
-        echo 'export PATH="/opt/chef/embedded/bin:$PATH"' >> /home/vagrant/.bash_profile
-        # Handy to have these packages install for native extension compiles
-        apt-get install -y libxslt-dev libxml2-dev
+        curl -Lk https://www.getchef.com/chef/install.sh | bash -s -- -v $CM_VERSION
     fi
 }
 
@@ -48,16 +41,15 @@ install_chef_dk()
     echo "==> Installing Chef Development Kit"
     if [[ ${CM_VERSION:-} == 'latest' ]]; then
         echo "==> Installing latest Chef Development Kit version"
-        curl -L https://www.getchef.com/chef/install.sh | sh -s -- -P chefdk
+        curl -Lk https://www.getchef.com/chef/install.sh | sh -s -- -P chefdk
     else
         echo "==> Installing Chef Development Kit ${CM_VERSION}"
-        curl -L https://www.getchef.com/chef/install.sh | sh -s -- -P chefdk -v ${CM_VERSION}
+        curl -Lk https://www.getchef.com/chef/install.sh | sh -s -- -P chefdk -v ${CM_VERSION}
     fi
 
-    if [[ ${CM_SET_PATH:-} == 'true' ]]; then
-        echo "Automatically setting vagrant PATH to Chef Development Kit"
-        echo 'export PATH="/opt/chefdk/embedded/bin:/home/vagrant/.chefdk/gem/ruby/2.1.0/bin:$PATH"' >> /home/vagrant/.bash_profile
-    fi
+    echo "==> Adding Chef Development Kit and Ruby to PATH"
+    echo 'eval "$(chef shell-init bash)"' >> /home/vagrant/.bash_profile
+    chown vagrant /home/vagrant/.bash_profile
 }
 
 install_salt()
