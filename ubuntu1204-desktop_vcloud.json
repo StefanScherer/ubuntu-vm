@@ -94,6 +94,7 @@
     ],
     "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
     "scripts": [
+      "script/update.sh",
       "script/desktop.sh",
       "script/vagrant.sh",
       "script/sshd.sh",
