@@ -5,7 +5,7 @@
     "cm_version": "",
     "cleanup_pause": "",
     "headless": "",
-    "update": "false",
+    "update": "true",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "ftp_proxy": "{{env `ftp_proxy`}}",
