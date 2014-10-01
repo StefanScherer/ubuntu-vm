@@ -17,12 +17,14 @@ fi
 # Ubuntu 12.04 & 14.04
 if [ -d "/var/lib/dhcp" ]; then
     rm /var/lib/dhcp/*
-fi 
+fi
 
-if [ ! -d "/etc/dhcp3" ]; then
-  if [ -d "/etc/dhcp" ]; then
-    echo "Patching /etc/dhcp3 for vCloud"
-    ln -s /etc/dhcp /etc/dhcp3
+if [ `lsb_release -c | awk '{ print $2 }'` == "trusty" ]; then
+  if [ ! -d "/etc/dhcp3" ]; then
+    if [ -d "/etc/dhcp" ]; then
+      echo "Patching /etc/dhcp3 for vCloud"
+      ln -s /etc/dhcp /etc/dhcp3
+    fi
   fi
 fi
 
@@ -56,6 +58,11 @@ rm -f /home/vagrant/.bash_history
 
 # Clean up log files
 find /var/log -type f | while read f; do echo -ne '' > $f; done;
+
+echo "==> Clearing last login information"
+>/var/log/lastlog
+>/var/log/wtmp
+>/var/log/btmp
 
 # Whiteout root
 count=$(df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}')
