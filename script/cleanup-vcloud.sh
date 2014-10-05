@@ -26,6 +26,8 @@ if [ `lsb_release -c | awk '{ print $2 }'` == "trusty" ]; then
       ln -s /etc/dhcp /etc/dhcp3
     fi
   fi
+  echo -e "nameserver 10.100.20.2\nnameserver 8.8.8.8" >> /etc/resolvconf/resolv.conf.d/base
+  sudo resolvconf -u
 fi
 
 echo "Writing a fixed eth0 entry to avoid delay on first boot in vCloud"
