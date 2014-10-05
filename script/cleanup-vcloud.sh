@@ -26,8 +26,9 @@ if [ `lsb_release -c | awk '{ print $2 }'` == "trusty" ]; then
       ln -s /etc/dhcp /etc/dhcp3
     fi
   fi
-  echo -e "nameserver 10.100.20.2\nnameserver 8.8.8.8" >> /etc/resolvconf/resolv.conf.d/base
-  sudo resolvconf -u
+  echo "Patching /etc/resolvconf/resolv.conf.d/base for vCloud"
+  echo -e "# patched by github.com/StefanScherer/ubuntu-vm/scripts/cleanup-vcloud.sh as long as vCloud does not support Ubuntu 14.04\nnameserver 10.100.20.2\nnameserver 8.8.8.8" >> /etc/resolvconf/resolv.conf.d/base
+  resolvconf -u
 fi
 
 echo "Writing a fixed eth0 entry to avoid delay on first boot in vCloud"
