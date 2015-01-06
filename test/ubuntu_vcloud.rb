@@ -1,5 +1,3 @@
-require_relative 'spec_helper'
-
 describe 'box' do
   it 'should have a root user' do
     expect(user 'root').to exist
@@ -26,7 +24,7 @@ describe 'box' do
 
   # check for 10GBit vmxnet3
   describe command('dmesg') do
-    it { should return_stdout(/vmxnet3.*eth0: NIC Link is Up 10000 Mbps/)   }
+    its(:stdout) { should match /vmxnet3.*eth0: NIC Link is Up 10000 Mbps/ }
   end
 
   # VMware Tools
