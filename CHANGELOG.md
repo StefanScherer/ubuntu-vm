@@ -1,4 +1,30 @@
 # Changelog
+
+## 1.0.11 (2014-12-23)
+
+* Upgrade Parallels Tools to 10.1.2
+* Default timezone is now UTC
+
+## 1.0.10 (2014-12-06)
+
+* Upgrade VMware Tools to 9.9.0 for VMware Fusion 7.1.0
+
+## 1.0.9 (2014-11-26)
+
+* Upgrade VirtualBox Guest Addition to 4.3.20
+* Upgrade Docker version to 1.3.2
+
+## 1.0.8 (2014-11-05)
+
+* Upgraded VMware Tools to 9.8.4 for VMware Fusion 7
+* Added Ubuntu 14.10 templates
+* Bump Docker version to 1.3.1
+* Enable 3D acceleration under VMware Fusion and Workstation
+
+## 1.0.7 (2014-10-16)
+
+* Upgraded VirtualBox Guest Additions to 4.3.18
+
 ## 1.0.6 (2014-09-21)
 
 * Upgraded VirtualBox Guest Additions to 4.3.16

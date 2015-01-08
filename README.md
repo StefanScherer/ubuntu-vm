@@ -10,24 +10,30 @@ using Packer.
 
 64-bit boxes:
 
-* [box-cutter/ubuntu1404](https://vagrantcloud.com/box-cutter/ubuntu1404) - Ubuntu Server 14.04.1 (64-bit), VMware 329MB/VirtualBox 290MB
-* [box-cutter/ubuntu1404-desktop](https://vagrantcloud.com/box-cutter/ubuntu1404-desktop) - Ubuntu Desktop 14.04.1 (64-bit), VMware 1.1GB/VirtualBox 1GB
-* [box-cutter/ubuntu1404-docker](https://vagrantcloud.com/box-cutter/ubuntu1404-docker) - Ubuntu Server 14.04.1 (64-bit) with Docker preinstalled, VMware 446MB/VirtualBox 410MB
-* [box-cutter/ubuntu1204](https://vagrantcloud.com/box-cutter/ubuntu1204) - Ubuntu Server 12.04.5 (64-bit), VMware 284MB, VirtualBox 240MB
-* [box-cutter/ubuntu1204-desktop](https://vagrantcloud.com/box-cutter/ubuntu1204-desktop) - Ubuntu Desktop 12.04.4 (64-bit), VMware 918MB/VirtualBox 823MB
-* [box-cutter/ubuntu1204-docker](https://vagrantcloud.com/box-cutter/ubuntu1204-docker) - Ubuntu Server 12.04.5 (64-bit) with Docker preinstalled, VMware 393MB/VirtualBox 349MB
-* [box-cutter/ubuntu1004](https://vagrantcloud.com/box-cutter/ubuntu1004)  - Ubuntu Server 10.04.4 (64-bit), VMware 223MB/VirtualBox 182MB
+* [box-cutter/ubuntu1410](https://vagrantcloud.com/box-cutter/ubuntu1410) - Ubuntu Server 14.10 (64-bit), VMware 354MB/VirtualBox 302MB/Parallels 320MB
+* [box-cutter/ubuntu1410-docker](https://vagrantcloud.com/box-cutter/ubuntu1410-docker) - Ubuntu Server 14.10 (64-bit) with Docker preinstalled, VMware 478MB/VirtualBox 454MB/Parallels 457MB
+* [box-cutter/ubuntu1404](https://vagrantcloud.com/box-cutter/ubuntu1404) - Ubuntu Server 14.04.1 (64-bit), VMware 324MB/VirtualBox 288MB/Parallels 302MB
+* [box-cutter/ubuntu1404-desktop](https://vagrantcloud.com/box-cutter/ubuntu1404-desktop) - Ubuntu Desktop 14.04.1 (64-bit), VMware 1.1GB/VirtualBox 1.1GB/Parallels 1.1GB
+* [box-cutter/ubuntu1404-docker](https://vagrantcloud.com/box-cutter/ubuntu1404-docker) - Ubuntu Server 14.04.1 (64-bit) with Docker preinstalled, VMware 432MB/VirtualBox 412MB/Parallels 429MB
+* [box-cutter/ubuntu1204](https://vagrantcloud.com/box-cutter/ubuntu1204) - Ubuntu Server 12.04.5 (64-bit), VMware 284MB, VirtualBox 237MB/Parallels 265MB
+* [box-cutter/ubuntu1204-desktop](https://vagrantcloud.com/box-cutter/ubuntu1204-desktop) - Ubuntu Desktop 12.04.4 (64-bit), VMware 925MB/VirtualBox 815MB/Parallels 957MB
+* [box-cutter/ubuntu1204-docker](https://vagrantcloud.com/box-cutter/ubuntu1204-docker) - Ubuntu Server 12.04.5 (64-bit) with Docker preinstalled, VMware 393MB/VirtualBox 354MB/Parallels 375MB
+* [box-cutter/ubuntu1004](https://vagrantcloud.com/box-cutter/ubuntu1004)  - Ubuntu Server 10.04.4 (64-bit), VMware 216MB/VirtualBox 191MB/Parallels 210MB
 
 32-bit boxes:
 
-* [box-cutter/ubuntu1404-i386](https://vagrantcloud.com/box-cutter/ubuntu1404-i386) - Ubuntu Server 14.04.1 (32-bit), VMware 323MB/VirtualBox 282MB
-* [box-cutter/ubuntu1204-i386](https://vagrantcloud.com/box-cutter/ubuntu1204-i386) - Ubuntu Server 12.04.5 (32-bit), VMware 278MB/VirtualBox 237MB
-* [box-cutter/ubuntu1004-i386](https://vagrantcloud.com/box-cutter/ubuntu1004-i386) - Ubuntu Server 10.04.4 (32-bit), VMware 227MB/VirtualBox 186MB
+* [box-cutter/ubuntu1410-i386](https://vagrantcloud.com/box-cutter/ubuntu1410-i386) - Ubuntu Server 14.10 (32-bit), VMware 353MB/VIrtualBox 314MB/Parallels 319MB
+* [box-cutter/ubuntu1404-i386](https://vagrantcloud.com/box-cutter/ubuntu1404-i386) - Ubuntu Server 14.04.1 (32-bit), VMware 322MB/VirtualBox 284MB/Parallels 298MB
+* [box-cutter/ubuntu1204-i386](https://vagrantcloud.com/box-cutter/ubuntu1204-i386) - Ubuntu Server 12.04.5 (32-bit), VMware 280MB/VirtualBox 226MB/Parallels 257MB
+* [box-cutter/ubuntu1004-i386](https://vagrantcloud.com/box-cutter/ubuntu1004-i386) - Ubuntu Server 10.04.4 (32-bit), VMware 224MB/VirtualBox 167MB/Parallels 207MB
 
 ## Building the Vagrant boxes
 
-To build all the boxes, you will need Packer ([Website](packer.io)) 
-and both VirtualBox and VMware Fusion installed.
+To build all the boxes, you will need VirtualBox, VMware Fusion, and Parallels Desktop for Mac installed.
+
+Parallels requires that the
+[Parallels Virtualization SDK for Mac](http://ww.parallels.com/downloads/desktop)
+be installed as an additional preqrequisite.
 
 A GNU Make `Makefile` drives the process via the following targets:
 
@@ -116,20 +122,12 @@ For Ubuntu, the ISO path variables are:
 * UBUNTU1204_SERVER_AMD64
 * UBUNTU1204_SERVER_I386
 * UBUNTU1204_ALTERNATE_AMD64
-* UBUNTU1304_SERVER_AMD64
-* UBUNTU1304_SERVER_I386
-* UBUNTU1310_SERVER_AMD64
-* UBUNTU1310_SERVER_I386
 * UBUNTU1404_SERVER_AMD64
 * UBUNTU1404_SERVER_I386
+* UBUNTU1410_SERVER_AMD64
+* UBUNTU1410_SERVER_I386
 
 This override is commonly used to speed up Packer builds by
 pointing at pre-downloaded ISOs instead of using the default
 download Internet URLs:
 `UBUNTU1404_SERVER_AMD64 := file:///Volumes/Ubuntu/ubuntu-14.04.1-server-amd64.iso`
-
-### Acknowledgments
-
-[CloudBees](http://www.cloudbees.com) is providing a hosted [Jenkins master](http://box-cutter.ci.cloudbees.com/) through their CloudBees FOSS program. Their [On-Premise Executor](https://developer.cloudbees.com/bin/view/DEV/On-Premise+Executors) feature is used to connect physical machines as build slaves running VirtualBox, VMware Fusion, VMware Workstation, VMware ESXi/vSphere and Hyper-V.
-
-![Powered By CloudBees](http://www.cloudbees.com/sites/default/files/Button-Powered-by-CB.png "Powered By CloudBees")![Built On DEV@Cloud](http://www.cloudbees.com/sites/default/files/Button-Built-on-CB-1.png "Built On DEV@Cloud")
