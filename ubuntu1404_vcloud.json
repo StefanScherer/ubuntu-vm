@@ -16,7 +16,8 @@
     "rsync_proxy": "{{env `rsync_proxy`}}",
     "no_proxy": "{{env `no_proxy`}}",
     "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.1-server-amd64.iso",
-    "iso_checksum": "401c5f6666fe2879ac3a9a3247b487723410cf88"
+    "iso_checksum": "401c5f6666fe2879ac3a9a3247b487723410cf88",
+    "custom_script": "."
   },
   "builders": [{
     "vm_name": "ubuntu1404",
