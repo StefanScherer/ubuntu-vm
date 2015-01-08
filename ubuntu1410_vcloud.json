@@ -120,7 +120,7 @@
       "script/sshd.sh",
       "script/vmtool.sh",
       "script/minimize.sh",
-      "script/cleanup-vcloud.sh"
+      "script/cleanup-vcloud.sh",
       "script/cmtool.sh",
       "{{ user `custom_script` }}"
     ]
