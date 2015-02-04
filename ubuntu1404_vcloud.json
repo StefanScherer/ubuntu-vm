@@ -9,7 +9,6 @@
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
     "install_vagrant_key": true,
-    "custom_script": ".",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "ftp_proxy": "{{env `ftp_proxy`}}",
@@ -121,8 +120,7 @@
       "script/vmtool.sh",
       "script/minimize.sh",
       "script/cleanup-vcloud.sh",
-      "script/cmtool.sh",
-      "{{ user `custom_script` }}"
+      "script/cmtool.sh"
     ]
   }],
   "post-processors": [{
