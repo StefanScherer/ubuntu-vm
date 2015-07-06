@@ -5,7 +5,11 @@
     "cm_version": "",
     "cleanup_pause": "",
     "headless": "",
-    "update": "true",
+    "update": "false",
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant",
+    "install_vagrant_key": true,
+    "custom_script": ".",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "ftp_proxy": "{{env `ftp_proxy`}}",
@@ -16,15 +20,15 @@
     "custom_script": "."
   },
   "builders": [{
-    "vm_name": "ubuntu1404-desktop",
+    "vm_name": "ubuntu1404-100gb",
     "type": "vmware-iso",
     "guest_os_type": "ubuntu-64",
     "http_directory": "http",
     "iso_url": "{{ user `iso_url` }}",
     "iso_checksum": "{{ user `iso_checksum` }}",
     "iso_checksum_type": "sha1",
-    "ssh_username": "vagrant",
-    "ssh_password": "vagrant",
+    "ssh_username": "{{ user `ssh_username` }}",
+    "ssh_password": "{{ user `ssh_password` }}",
     "ssh_wait_timeout": "10000s",
     "headless": "{{ user `headless` }}",
     "tools_upload_flavor": "linux",
@@ -32,15 +36,16 @@
       "<esc><esc><enter><wait>",
       "/install/vmlinuz auto",
       " console-setup/ask_detect=false",
-      " console-setup/layoutcode=us",
+      " console-setup/layoutcode=de",
       " console-setup/modelcode=pc105",
       " debconf/frontend=noninteractive",
       " debian-installer=en_US",
       " fb=false",
       " initrd=/install/initrd.gz",
-      " kbd-chooser/method=us",
-      " keyboard-configuration/layout=USA",
-      " keyboard-configuration/variant=USA",
+      " keymap=de debian-installer/keymap=de",
+      " kbd-chooser/method=de",
+      " keyboard-configuration/layout=Germany",
+      " keyboard-configuration/variant=Germany",
       " locale=en_US",
       " netcfg/get_domain=vm",
       " netcfg/get_hostname=vagrant",
@@ -50,9 +55,9 @@
       "<enter>"
     ],
     "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-    "disk_size": 40960,
+    "disk_size": 102400,
     "vmx_data": {
-      "memsize": "1024",
+      "memsize": "512",
       "numvcpus": "1"
     },
     "vmx_data_post": {
@@ -60,33 +65,33 @@
     }
   },
   {
-    "vm_name": "ubuntu1404-desktop",
+    "vm_name": "ubuntu1404-100gb",
     "type": "virtualbox-iso",
     "http_directory": "http",
-    "http_port_min": 8200,
     "iso_url": "{{ user `iso_url` }}",
     "iso_checksum": "{{ user `iso_checksum` }}",
     "iso_checksum_type": "sha1",
     "guest_os_type": "Ubuntu_64",
     "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
     "virtualbox_version_file": ".vbox_version",
-    "ssh_username": "vagrant",
-    "ssh_password": "vagrant",
-    "ssh_wait_timeout": "10000s",
     "headless": "{{ user `headless` }}",
+    "ssh_username": "{{ user `ssh_username` }}",
+    "ssh_password": "{{ user `ssh_password` }}",
+    "ssh_wait_timeout": "10000s",
     "boot_command": [
       "<esc><esc><enter><wait>",
       "/install/vmlinuz noapic ",
       "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
-      "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+      "debian-installer=en_US auto locale=en_US kbd-chooser/method=de ",
       "hostname={{ .Name }} ",
       "fb=false debconf/frontend=noninteractive ",
-      "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
-      "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+      "keyboard-configuration/modelcode=pc105 keyboard-configuration/layout=Germany ",
+      "keyboard-configuration/variant=Germany console-setup/ask_detect=false ",
+      "keymap=de debian-installer/keymap=de ",
       "initrd=/install/initrd.gz -- <enter>"
     ],
     "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-    "disk_size": 40960,
+    "disk_size": 102400,
     "vboxmanage": [
       ["modifyvm", "{{.Name}}", "--memory", "512"],
       ["modifyvm", "{{.Name}}", "--cpus", "1"]
@@ -99,6 +104,9 @@
       "CM_VERSION={{user `cm_version`}}",
       "CLEANUP_PAUSE={{user `cleanup_pause`}}",
       "UPDATE={{user `update`}}",
+      "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
+      "SSH_USERNAME={{user `ssh_username`}}",
+      "SSH_PASSWORD={{user `ssh_password`}}",
       "http_proxy={{user `http_proxy`}}",
       "https_proxy={{user `https_proxy`}}",
       "ftp_proxy={{user `ftp_proxy`}}",
@@ -108,17 +116,18 @@
     "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
     "scripts": [
       "script/update.sh",
-      "script/desktop.sh",
       "script/vagrant.sh",
       "script/sshd.sh",
       "script/vmtool.sh",
+      "script/minimize.sh",
+      "script/cleanup-vcloud.sh",
       "script/cmtool.sh",
-      "script/cleanup-vcloud.sh"
+      "{{ user `custom_script` }}"
     ]
   }],
   "post-processors": [{
     "type": "vagrant-vmware-ovf",
     "provider": "vcloud",
-    "output": "ubuntu1404-desktop_vcloud.box"
+    "output": "ubuntu1404-100gb_vcloud.box"
   }]
 }
