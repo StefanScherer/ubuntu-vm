@@ -8,7 +8,7 @@
     "update": "false",
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
-    "install_vagrant_key": true,
+    "install_vagrant_key": "true",
     "custom_script": ".",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
