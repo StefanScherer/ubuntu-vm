@@ -90,7 +90,9 @@
     "disk_size": 40960,
     "vboxmanage": [
       ["modifyvm", "{{.Name}}", "--memory", "512"],
-      ["modifyvm", "{{.Name}}", "--cpus", "1"]
+      ["modifyvm", "{{.Name}}", "--cpus", "1"],
+      ["modifyvm", "{{.Name}}", "--vcpenabled", "on"],
+      ["modifyvm", "{{.Name}}", "--vcpfile", "ubuntu1410.webm"]
     ]
   },
   {
@@ -158,8 +160,7 @@
       "script/vmtool.sh",
       "script/minimize.sh",
       "script/cleanup.sh",
-      "script/cmtool.sh",
-      "{{ user `custom_script` }}"
+      "script/cmtool.sh"
     ]
   }],
   "post-processors": [{
